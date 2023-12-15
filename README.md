@@ -16,17 +16,94 @@
 
 КОД БОТА
 
-from telebot import types import telebot; bot = telebot.TeleBot('6310172647:AAHqMz4bMl8jK3a6Oc5rdBzKFIwLg9sjk8g'); @bot.message_handler(content_types=['text']) def get_text_messages(message): if message.text == "Привет": bot.send_message(message.from_user.id, "Привет, наш разработчик составил новое расписание выступлений, чтобы его увидеть напиши команду /schedule") elif message.text == "/schedule": keyboard = types.InlineKeyboardMarkup(); #наша клавиатура key_yes = types.InlineKeyboardButton(text='Да', callback_data='yes'); #кнопка «Да» keyboard.add(key_yes); #добавляем кнопку в клавиатуру key_no= types.InlineKeyboardButton(text='Нет', callback_data='no'); keyboard.add(key_no); question = 'Вот дащборд с расписанием [https://700c-188-130-255-192.ngrok-free.app ]. Тебя оно устраивает?'; bot.send_message(message.from_user.id, text=question, reply_markup=keyboard) elif message.text == '/report': bot.send_message(message.from_user.id, "Напиши пожалуйста номер того, что тебя не устраивает."); elif message.text == '1' or '2' or '3' or '4' or '5' or '6' or '7': bot.send_message(message.from_user.id, 'Я зафиксировал и отправил твои пожелания разработчику.'); bot.reply_to(message,"Этот пункт не устраивает пользователя."); else: bot.send_message(message.from_user.id, "Я тебя не понимаю. Напиши /schedule.")
+import telebot
+from telebot import types
 
-@bot.callback_query_handler(func=lambda call: True)
-def callback_worker(call):
-    if call.data == "yes":
-        bot.send_message(call.message.chat.id, 'Отлично! Я отправлю твой ответ разработчику.');
-        bot.send_message(1944402724, 'Пользователя устраивает расписание');
-    elif call.data == "no":
-        ...
-        bot.send_message(call.message.chat.id, 'Напиши команду /report')
-bot.polling(none_stop=True, interval=0)
+# Токен вашего бота
+TOKEN = '6678216454:AAH6CEN1d7_Rhc9olvbPxUoo6vGRAftrtSA'
+bot = telebot.TeleBot(TOKEN)
+
+
+# Обработчик команды /start
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.send_message(message.chat.id, "Приветствую Вячеслав Петрович, вот статистика за 22.12.2023 [http://127.0.0.1:8050/]. Выберите услугу для установки временного лимита!")
+    menu(message)
+
+
+def menu(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = types.KeyboardButton("🖥 Компьютеры")
+    btn2 = types.KeyboardButton("🎮 VR шлема")
+    markup.add(btn1, btn2)
+    bot.send_message(message.chat.id, "Выберите устройство", reply_markup=markup)
+
+
+@bot.message_handler(func=lambda message: message.text == "🖥 Компьютеры")
+def comp(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = types.KeyboardButton("1️⃣")
+    btn2 = types.KeyboardButton("2️⃣")
+    btn3 = types.KeyboardButton("3️⃣")
+    btn4 = types.KeyboardButton("4️⃣")
+    markup.add(btn1, btn2)
+    markup.add(btn4, btn3)
+    bot.send_message(message.chat.id, 'На какой компьютер установить лимит?', reply_markup=markup)
+    bot.register_next_step_handler(message, compig)
+
+
+def compig(message):
+    if message.text in ["1️⃣", "2️⃣", "3️⃣", "4️⃣"]:
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn1 = types.KeyboardButton("1️⃣")
+        btn2 = types.KeyboardButton("2️⃣")
+        btn3 = types.KeyboardButton("4️⃣")
+        btn4 = types.KeyboardButton("1️⃣2️⃣")
+        markup.add(btn1, btn2)
+        markup.add(btn3, btn4)
+        bot.send_message(message.chat.id, 'Выберите на какой срок (час) предоставляется услуга', reply_markup=markup)
+        bot.register_next_step_handler(message, compsfinish)
+
+
+def compsfinish(message):
+    bot.send_message(message.chat.id, 'Услуга запущена, ограничения установлены')
+    menu(message)
+
+
+@bot.message_handler(func=lambda message: message.text == "🎮 VR шлема")
+def vr(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = types.KeyboardButton("1️⃣")
+    btn2 = types.KeyboardButton("2️⃣")
+    btn3 = types.KeyboardButton("3️⃣")
+    btn4 = types.KeyboardButton("4️⃣")
+    markup.add(btn1, btn2)
+    markup.add(btn4, btn3)
+    bot.send_message(message.chat.id, 'На какое устройство устройство установить лимит?', reply_markup=markup)
+    bot.register_next_step_handler(message, vrig)
+
+
+def vrig(message):
+    if message.text in ["1️⃣", "2️⃣", "3️⃣", "4️⃣"]:
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn1 = types.KeyboardButton("1️⃣")
+        btn2 = types.KeyboardButton("2️⃣")
+        btn3 = types.KeyboardButton("3️⃣")
+        btn4 = types.KeyboardButton("4️⃣")
+        markup.add(btn1, btn2)
+        markup.add(btn3, btn4)
+        bot.send_message(message.chat.id, 'Выберите на какой срок (час) предоставляется услуга', reply_markup=markup)
+        bot.register_next_step_handler(message, vrfinish)
+
+
+def vrfinish(message):
+    bot.send_message(message.chat.id, 'Услуга запущена, ограничения установлены')
+    menu(message)
+
+
+# Запускаем бота
+if __name__ == "__main__":
+    bot.polling(none_stop=True)
 
 КОНТАКТНАЯ ИНФОРМАЦИЯ
 
