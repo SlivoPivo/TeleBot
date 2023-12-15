@@ -19,7 +19,7 @@
 import telebot
 from telebot import types
 
-# Токен вашего бота
+# Токен бота
 TOKEN = '6678216454:AAH6CEN1d7_Rhc9olvbPxUoo6vGRAftrtSA'
 bot = telebot.TeleBot(TOKEN)
 
@@ -101,7 +101,7 @@ def vrfinish(message):
     menu(message)
 
 
-# Запускаем бота
+# Запуск бота
 if __name__ == "__main__":
     bot.polling(none_stop=True)
 
