@@ -30,4 +30,4 @@ bot.polling(none_stop=True, interval=0)
 
 КОНТАКТНАЯ ИНФОРМАЦИЯ
 
-GitHub [https://github.com/IvanMA4HEB] Email [primerpochty2000@gmail.com]
+GitHub [https://github.com/SlivoPivo/TeleBot/tree/development] Email [silver.jojo333@gmail.com]
