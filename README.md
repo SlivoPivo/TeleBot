@@ -105,6 +105,6 @@ def vrfinish(message):
 if __name__ == "__main__":
     bot.polling(none_stop=True)
 
-КОНТАКТНАЯ ИНФОРМАЦИЯ
+# КОНТАКТНАЯ ИНФОРМАЦИЯ
 
 GitHub [https://github.com/SlivoPivo/TeleBot/tree/development] Email [silver.jojo333@gmail.com]
